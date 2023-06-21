@@ -1,7 +1,8 @@
 <template>
   <nav>
     <ul>
-      <li><router-link to="/">Home</router-link></li>
+      <li><router-link to="/showlist">Home</router-link></li>
+      <li><router-link to="/showdetails">ShowDetails</router-link></li>
       <li><router-link to="/favorites">Favorites</router-link></li>
       <li><router-link to="/subscriptions">Subscriptions</router-link></li>
       <li><a href="#" @click.prevent="logout">Logout</a></li>

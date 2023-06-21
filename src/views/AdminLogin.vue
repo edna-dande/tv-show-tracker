@@ -14,6 +14,15 @@
       </div>
       <button type="submit">Login</button>
     </form>
+    <nav>
+      <ul>
+        <li><router-link to="/showlist">Home</router-link></li>
+        <li><router-link to="/showdetails">ShowDetails</router-link></li>
+        <li><router-link to="/favorites">Favorites</router-link></li>
+        <li><router-link to="/subscriptions">Subscriptions</router-link></li>
+        <li><a href="#" @click.prevent="logout">Logout</a></li>
+      </ul>
+    </nav>
   </div>
 </template>
 
@@ -21,8 +30,8 @@
 export default {
   data() {
     return {
-      username: " ",
-      password: " ",
+      username: "",
+      password: "",
     };
   },
   methods: {
@@ -47,4 +56,26 @@ export default {
   height: 60px;
   width: 20px;
 }
+/* header {
+    display: flex;
+    border-bottom: 1px solid #ccc;
+    padding: 0.5rem 1rem;
+  
+    p {
+      margin-left: 1rem;
+    }
+  }
+  
+  nav {
+    margin-left: auto;
+  
+    ul {
+      list-style: none;
+    }
+  
+    ul li {
+      display: inline-flex;
+      margin-left: 1rem;
+    }
+  } */
 </style>
