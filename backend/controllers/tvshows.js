@@ -1,6 +1,7 @@
-// Import function from TvShow Model
+// Import functions from Models
 import { getShows, getShowById, insertShow, updateShowById, deleteShowById } from "../models/showModel.js";
-  
+import { insertActorShow } from "../models/actorModel.js";
+
 // Get All Tv Shows
 export const showTvShows = (req, res) => {
     getShows((err, results) => {
@@ -26,10 +27,20 @@ export const showTvShowById = (req, res) => {
 // Create New Show
 export const createTvShow = (req, res) => {
     const data = req.body;
-    insertShow(data, (err, results) => {
+    console.log("Inserting data:");
+    var showdata = {"title": data.name, "genre_id": data.genre_id};
+    var castdata = data.cast
+    console.log(data);
+    console.log(showdata);
+    console.log(castdata);
+    insertShow(showdata, (err, results) => {
         if (err){
             res.send(err);
         }else{
+            var show_id = results.insertId;
+            for(var i=0; i<castdata.length;i++) {
+                insertActorShow (show_id, castdata[i], (err, results) => {})
+            }
             res.json(results);
         }
     });

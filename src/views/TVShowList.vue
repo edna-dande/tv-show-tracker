@@ -14,7 +14,7 @@
       <tbody>
         <tr v-for="show in shows" :key="show.id">
           <td>{{ show.title }}</td>
-          <td>{{ show.genre }}</td>
+          <td>{{ show.name }}</td>
           <td>
             <button @click="viewShow(show.id)">View</button>
             <button @click="editShow(show)">Edit</button>
@@ -28,6 +28,8 @@
 </template>
 
 <script>
+// import axios
+import axios from "axios";
 import NavBar from "../components/NavBar.vue";
 export default {
   components: {
@@ -38,7 +40,7 @@ export default {
       shows: [],
     };
   },
-  created: function() {
+  created: function () {
     this.getShows();
   },
   methods: {
@@ -51,7 +53,6 @@ export default {
         console.log(err);
       }
     },
-  
     // Delete Tv Show
     async deleteTvShow(id) {
       try {
@@ -67,13 +68,10 @@ export default {
       }
     },
     viewShow(id) {
-      this.$router.push("/showdetails/"+id);
+      this.$router.push("/showdetails/" + id);
     },
     createShow() {
-      // Handle logic for creating a new TV show
-      // You can redirect to a dedicated creation page or open a modal for creating a show
-      // Implement your desired logic here
-      alert(`Create TV Show`);
+      this.$router.push("/create");
     },
     editShow(show) {
       // Handle logic for editing a TV show

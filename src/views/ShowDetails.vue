@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h2>{{ show.title }}</h2>
-    <h3>Genre: {{ show.genre }}</h3>
+    <h2>{{ show ? show.title : "" }}</h2>
+    <h3>Genre: {{ show ? show.genre : "" }}</h3>
 
     <h4>Reviews/Comments:</h4>
-    <ul v-if="show.reviews.length">
+    <ul v-if="show !== null && show.reviews.length">
       <li v-for="review in show.reviews" :key="review.id">
         {{ review.text }} - by {{ review.user }}
       </li>
@@ -12,7 +12,7 @@
     <div v-else>No reviews/comments available.</div>
 
     <h4>Cast/Actors:</h4>
-    <ul v-if="show.cast.length">
+    <ul v-if="show !== null && show.cast.length">
       <li v-for="actor in show.cast" :key="actor.id">
         {{ actor.name }}
       </li>
@@ -20,7 +20,7 @@
     <div v-else>No cast/actors information available.</div>
 
     <h4>Ratings:</h4>
-    <ul v-if="show.ratings.length">
+    <ul v-if="show !== null && show.ratings.length">
       <li v-for="rating in show.ratings" :key="rating.id">
         {{ rating.source }}: {{ rating.value }}
       </li>
@@ -41,25 +41,27 @@
       </select>
     </div>
 
-    <div v-if="show.rating">
-      <p>Average Rating: {{ show.rating }}</p>
-      <p>Total Ratings: {{ show.totalRatings }}</p>
+    <div v-if="show && show.rating">
+      <p>Average Rating: {{ show ? show.rating : "" }}</p>
+      <p>Total Ratings: {{ show ? show.totalRatings : "" }}</p>
     </div>
   </div>
 </template>
 
 <script>
+// import axios
+import axios from "axios";
 export default {
-  props: {
-    show: {
-      type: Object,
-      required: true,
-    },
-  },
+  props: {},
   data() {
     return {
       userRating: ``,
+      show: null,
+      availableRatings: [1, 2, 3, 4, 5], // Update with your desired rating values
     };
+  },
+  created: function () {
+    this.getTvShowById();
   },
   computed: {
     showWithRating() {
@@ -70,11 +72,19 @@ export default {
         totalRatings: this.show.totalRatings + 1,
       };
     },
-    availableRatings() {
-      return [1, 2, 3, 4, 5]; // Update with your desired rating values
-    },
   },
   methods: {
+    // Get Show By Id
+    async getTvShowById() {
+      try {
+        const response = await axios.get(
+          `http://localhost:3002/show/${this.$route.params.id}`
+        );
+        this.show = response.data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
     rateShow() {
       // Perform rating logic here
       // You can emit an event to notify the parent component about the rating change

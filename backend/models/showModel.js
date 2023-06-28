@@ -4,7 +4,7 @@ import db from "../config/database.js";
 // Get All Tv Shows
 export const getShows = (result) => {
     db.then((connection) => {
-        connection.query("SELECT * FROM shows", (err, results) => {             
+        connection.query("SELECT *, genres.id as genres_id, shows.id as id FROM shows LEFT JOIN genres ON shows.genre_id = genres.id ORDER BY title ASC", (err, results) => {             
             if(err) {
                 console.log(err);
                 result(err, null);
@@ -18,12 +18,44 @@ export const getShows = (result) => {
 // Get Single Tv Show
 export const getShowById = (id, result) => {
     db.then((connection) => {
-        connection.query("SELECT * FROM shows WHERE id = ?", [id], (err, results) => {             
+        connection.query("SELECT *, genres.id as genres_id, shows.id as id FROM shows LEFT JOIN genres ON shows.genre_id = genres.id WHERE shows.id = ?", [id], (err, results) => {             
             if(err) {
                 console.log(err);
                 result(err, null);
             } else {
-                result(null, results[0]);
+                connection.query("SELECT * FROM actors WHERE id IN (SELECT actor_id FROM actor_shows WHERE show_id = ?)", [id], (err, results1) => {
+                    var show = results[0];
+                    if(err) {
+                        show.cast = {};
+                        result(null, show)
+                    } else {
+                        connection.query("SELECT * FROM ratings WHERE show_id = ?", [id], (err, results2) => {
+                            if(err) {
+                                show.ratings = {};
+                                result(null, show)
+                            } else {
+                                show.ratings = results2
+                                connection.query("SELECT * FROM reviews WHERE show_id = ?", [id], (err, results3) => {
+                                    if(err) {
+                                        show.reviews = {};
+                                        result(null, show)
+                                    } else {
+                                        show.reviews = results3
+                                        connection.query("SELECT * FROM ratings WHERE show_id = ?", [id], (err, results4) => {
+                                            if(err) {
+                                                show.reviews = {};
+                                                result(null, show)
+                                            } else {
+                                                show.reviews = results4
+                                                result(null, show);
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
             }
         }); 
     });  

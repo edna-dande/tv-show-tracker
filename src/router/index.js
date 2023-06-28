@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 // import App from "../views/App.vue";
 import SubscriptionsView from "../views/SubscriptionsView.vue";
 import AdminLogin from "../views/AdminLogin.vue";
+import AddShow from "../views/AddShow.vue";
 import ShowList from "../views/TVShowList.vue";
 import ShowDetails from "../views/ShowDetails.vue";
 import FavoriteShows from "../views/FavoriteShows.vue";
@@ -16,6 +17,11 @@ const routes = [
     path: "/showlist",
     name: "ShowList",
     component: ShowList,
+  },
+  {
+    path: "/create",
+    name: "Create",
+    component: AddShow,
   },
   {
     path: "/showdetails/:id",

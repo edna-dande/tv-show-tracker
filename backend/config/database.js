@@ -1,4 +1,5 @@
 import mysql from "mysql2";
+import fs from "fs";
 import { Client } from "ssh2";
 
 const ssh = new Client();
@@ -13,9 +14,9 @@ const dbServer = {
 };
 const tunnelConfig = {
     host: '127.0.0.1',
-    port: 2222,
+    port: 2200,
     username: 'vagrant',
-    privateKey:  require('fs').readFileSync('/Users/eamondi/first-vagrant/.vagrant/machines/default/virtualbox/private_key'),
+    privateKey:  fs.readFileSync('/Users/eamondi/first-vagrant/.vagrant/machines/default/virtualbox/private_key'),
     password: '2023Really!'
 };
 const forwardConfig = {
