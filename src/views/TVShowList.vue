@@ -16,9 +16,9 @@
           <td>{{ show.title }}</td>
           <td>{{ show.genre }}</td>
           <td>
-            <button @click="viewShow(show)">View</button>
+            <button @click="viewShow(show.id)">View</button>
             <button @click="editShow(show)">Edit</button>
-            <button @click="deleteShow(show.id)">Delete</button>
+            <button @click="deleteTvShow(show.id)">Delete</button>
             <button @click="subscribeShow(show)">Subscribe</button>
           </td>
         </tr>
@@ -35,15 +35,40 @@ export default {
   },
   data() {
     return {
-      shows: [
-        // Sample data for demonstration purposes
-        { id: 1, title: `Show 1`, genre: `Drama` },
-        { id: 2, title: `Show 2`, genre: `Comedy` },
-        { id: 3, title: `Show 3`, genre: `Action` },
-      ],
+      shows: [],
     };
   },
+  created: function() {
+    this.getShows();
+  },
   methods: {
+    // Get All Shows
+    async getShows() {
+      try {
+        const response = await axios.get("http://localhost:3002/showlist");
+        this.shows = response.data;
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  
+    // Delete Tv Show
+    async deleteTvShow(id) {
+      try {
+        const confirmed = confirm(
+          `Are you sure you want to delete this TV show?`
+        );
+        if (confirmed) {
+          await axios.delete(`http://localhost:3002/show/${id}`);
+          this.getShows();
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    viewShow(id) {
+      this.$router.push("/showdetails/"+id);
+    },
     createShow() {
       // Handle logic for creating a new TV show
       // You can redirect to a dedicated creation page or open a modal for creating a show
@@ -55,18 +80,6 @@ export default {
       // You can redirect to a dedicated editing page or open a modal for editing the show
       // Implement your desired logic here
       alert(`Edit TV Show: ` + show.title);
-    },
-    deleteShow(showId) {
-      // Handle logic for deleting a TV show
-      // Implement your desired logic here
-      // For example, you can show a confirmation dialog and then remove the show from the list
-      const confirmed = confirm(
-        `Are you sure you want to delete this TV show?`
-      );
-      if (confirmed) {
-        this.shows = this.shows.filter((show) => show.id !== showId);
-        alert(`TV Show deleted`);
-      }
     },
   },
 };

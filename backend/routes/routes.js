@@ -7,19 +7,19 @@ import { showTvShows, showTvShowById, createTvShow, updateTvShow, deleteTvShow }
 // init express router
 const router = express.Router();
   
-// Get All Product
+// Get All Shows
 router.get('/showlist', showTvShows);
   
-// Get Single Product
+// Get Single Show
 router.get('/show/:id', showTvShowById);
   
-// Create New Product
+// Create New Show
 router.post('/tvshows', createTvShow);
   
-// Update Product
+// Update Show
 router.put('/show/:id', updateTvShow);
   
-// Delete Product
+// Delete Show
 router.delete('/show/:id', deleteTvShow);
   
 // export default router
