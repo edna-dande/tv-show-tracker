@@ -31,10 +31,16 @@
       <label for="rating">Rating:</label>
       <select id="rating" v-model="userRating" @change="rateShow">
         <option value="">Select rating</option>
-        <option v-for="rating in availableRatings" :value="rating">{{ rating }}</option>
+        <option
+          v-for="rating in availableRatings"
+          v-bind:key="rating"
+          :value="rating"
+        >
+          {{ rating }}
+        </option>
       </select>
     </div>
-    
+
     <div v-if="show.rating">
       <p>Average Rating: {{ show.rating }}</p>
       <p>Total Ratings: {{ show.totalRatings }}</p>
@@ -48,6 +54,47 @@ export default {
     show: {
       type: Object,
       required: true,
+    },
+  },
+  data() {
+    return {
+      userRating: ``,
+    };
+  },
+  computed: {
+    showWithRating() {
+      // Create a copy of the show object and add the rating properties
+      return {
+        ...this.show,
+        rating: this.calculateNewRating(this.userRating),
+        totalRatings: this.show.totalRatings + 1,
+      };
+    },
+    availableRatings() {
+      return [1, 2, 3, 4, 5]; // Update with your desired rating values
+    },
+  },
+  methods: {
+    rateShow() {
+      // Perform rating logic here
+      // You can emit an event to notify the parent component about the rating change
+
+      // For demonstration purposes, let's simply update the show's rating and totalRatings
+      if (this.userRating !== ``) {
+        // this.show.rating = this.calculateNewRating(this.userRating);
+        // this.show.totalRatings++;
+      }
+    },
+    calculateNewRating(newRating) {
+      const currentRating = this.show.rating;
+      const totalRatings = this.show.totalRatings;
+
+      // Calculate the new average rating based on the current rating and total ratings
+      const newTotalRatings = totalRatings + 1;
+      const newAverageRating =
+        (currentRating * totalRatings + newRating) / newTotalRatings;
+
+      return newAverageRating.toFixed(1); // Round to one decimal place
     },
   },
 };
