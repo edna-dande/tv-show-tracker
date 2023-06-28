@@ -1,6 +1,8 @@
 <template>
   <div>
     <h2>TV Shows</h2>
+    <NavBar />
+    <button @click="createShow">Add TV Show</button>
     <table>
       <thead>
         <tr>
@@ -14,18 +16,23 @@
           <td>{{ show.title }}</td>
           <td>{{ show.genre }}</td>
           <td>
+            <button @click="viewShow(show)">View</button>
             <button @click="editShow(show)">Edit</button>
             <button @click="deleteShow(show.id)">Delete</button>
+            <button @click="subscribeShow(show)">Subscribe</button>
           </td>
         </tr>
       </tbody>
     </table>
-    <button @click="createShow">Add TV Show</button>
   </div>
 </template>
 
 <script>
+import NavBar from "../components/NavBar.vue";
 export default {
+  components: {
+    NavBar,
+  },
   data() {
     return {
       shows: [

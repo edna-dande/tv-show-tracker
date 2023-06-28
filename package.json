@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
+    "serve": "vue-cli-service serve --port 8081",
     "build": "vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint"
@@ -12,7 +12,13 @@
     "core-js": "^3.8.3",
     "vue": "^3.2.13",
     "vue-router": "^4.0.3",
-    "vuex": "^4.0.0"
+    "vuex": "^4.0.0",
+    "body-parser": "^1.20.2",
+    "mysql2": "^3.3.3",
+    "ssh2": "^1.13.0",
+    "express.js": "^1.0.0",
+    "express-flash": "^0.0.2",
+    "method-override": "^3.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

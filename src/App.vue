@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- Other components and content here -->
-    <AdminLogin v-if="!isLoggedIn" />
+    <!-- <AdminLogin v-if="!isLoggedIn" />
     <Navbar v-if="isLoggedIn" />
     <TVShowList v-if="isLoggedIn" />
     <SubscriptionsView v-if="isLoggedIn" />
@@ -11,27 +11,14 @@
       :favoriteShows="favoriteShows"
       @remove="removeFromFavorites"
     />
+    <SearchShows v-if="isLoggedIn" :shows="shows" /> -->
+    <router-view />
     <!-- Display other components or content for authenticated user -->
   </div>
 </template>
 
 <script>
-import AdminLogin from "./views/AdminLogin.vue";
-import Navbar from "./components/NavBar.vue";
-import TVShowList from "./views/TVShowList.vue";
-import SubscriptionsView from "./views/SubscriptionsView.vue";
-import ShowDetails from "./views/ShowDetails.vue";
-import FavoriteShows from "./views/FavoriteShows.vue";
-
 export default {
-  components: {
-    AdminLogin,
-    Navbar,
-    TVShowList,
-    SubscriptionsView,
-    ShowDetails,
-    FavoriteShows,
-  },
   data() {
     return {
       isLoggedIn: false, // Set to true when user is logged in
@@ -51,9 +38,6 @@ export default {
           { id: 2, source: `IMDb`, value: `8.5` },
         ],
       },
-      favoriteShows: [
-        // Initial favorite shows
-      ],
     };
   },
   methods: {

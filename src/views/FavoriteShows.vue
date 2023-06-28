@@ -13,11 +13,12 @@
 
 <script>
 export default {
-  props: {
-    favoriteShows: {
-      type: Array,
-      required: true,
-    },
+  data() {
+    return {
+      favoriteShows: [
+        // Initial favorite shows
+      ],
+    };
   },
   methods: {
     removeFromFavorites(showId) {
