@@ -26,6 +26,19 @@
       </li>
     </ul>
     <div v-else>No ratings available.</div>
+    <h4>Rate the Show</h4>
+    <div>
+      <label for="rating">Rating:</label>
+      <select id="rating" v-model="userRating" @change="rateShow">
+        <option value="">Select rating</option>
+        <option v-for="rating in availableRatings" :value="rating">{{ rating }}</option>
+      </select>
+    </div>
+    
+    <div v-if="show.rating">
+      <p>Average Rating: {{ show.rating }}</p>
+      <p>Total Ratings: {{ show.totalRatings }}</p>
+    </div>
   </div>
 </template>
 

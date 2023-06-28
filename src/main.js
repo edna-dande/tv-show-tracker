@@ -7,3 +7,4 @@ import store from "./store";
 // import Navbar from "./components/NavBar.vue";
 
 createApp(App).use(store).use(router).mount("#app");
+
