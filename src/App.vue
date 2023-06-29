@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div class="navigation"></div>
     <!-- Other components and content here -->
     <!-- <AdminLogin v-if="!isLoggedIn" />
     <Navbar v-if="isLoggedIn" />
@@ -12,12 +13,16 @@
       @remove="removeFromFavorites"
     />
     <SearchShows v-if="isLoggedIn" :shows="shows" /> -->
-    <router-view />
+    <main>
+      <router-view />
+    </main>
     <!-- Display other components or content for authenticated user -->
+    <div class="footer"></div>
   </div>
 </template>
 
 <script>
+/* eslint-disable */
 export default {
   data() {
     return {
@@ -50,3 +55,31 @@ export default {
   },
 };
 </script>
+
+<style lang="scss">
+*{
+  margin: 0;
+  padding: 0;
+}
+main{
+  max-width: 1200px;
+  margin: 10px auto;
+  padding: 20px;
+  min-height: 100vh;
+}
+.navigation{
+  background-color: #f3f3f3;
+  height: 50px;
+}
+.footer{
+  background-color: #f3f3f3;
+  height: 50px;
+  position: fixed;
+  width: 100%;
+  flex-shrink: 0;
+  position: sticky;
+  bottom: 0;
+ 
+}
+
+</style>

@@ -3,9 +3,11 @@
     <h2>TV Shows</h2>
     <NavBar />
     <button @click="createShow">Add TV Show</button>
-    <div v-for="show in shows" :key="show.id" class="data-card">
+    <div class="container" >
+      <div v-for="show in shows" :key="show.id" class="data-card">
       <div class="show-poster">
         <!-- Show Poster Image -->
+        <img width="300px" :src="show.image" alt="show-image" />
       </div>
       <div class="show-details">
         <h3 class="show-title">{{ show.title }}</h3>
@@ -18,11 +20,13 @@
         </div>
       </div>
     </div>
+    </div> 
   </div>
 </template>
 
 <script>
 // import axios
+/* eslint-disable */ 
 import axios from "axios";
 import NavBar from "../components/NavBar.vue";
 export default {
@@ -43,6 +47,7 @@ export default {
       try {
         const response = await axios.get("http://localhost:3002/showlist");
         this.shows = response.data;
+        console.log(this.shows);
       } catch (err) {
         console.log(err);
       }
@@ -78,16 +83,34 @@ export default {
 </script>
 
 <style scoped>
-table {
+/* table {
   width: 100%;
 }
 th,
 td {
   padding: 10px;
   text-align: left;
-}
+} */
 
 button {
-  margin-right: 5px;
+  margin-right: 10px;
+  border-radius: 30px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding: 5px;
+}
+.container{
+  display: flex;
+}
+.data-card {
+  width: 400px;
+  /* height: 150px; */
+  border: 1px solid #d6d3d3;
+  border-radius: 10px; 
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
 }
 </style>
