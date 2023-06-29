@@ -1,5 +1,7 @@
 import { mount } from '@vue/test-utils';
 import TVShowList from "@/views/TVShowlist.vue";
+// import router from "@/router";
+import { RouterLinkStub } from '@vue/test-utils';
 
 describe('TVShowList.vue', () => {
     it('displays the correct number of shows', () => {
@@ -9,6 +11,9 @@ describe('TVShowList.vue', () => {
         ];
     
         const wrapper = mount(TVShowList, {
+          stubs: {
+            RouterLink: RouterLinkStub
+        },
           data() {
             return {
               shows: shows,
