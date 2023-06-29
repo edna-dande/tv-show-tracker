@@ -1,10 +1,10 @@
 <template>
   <div>
-    <h2>{{ show ? show.title : "" }}</h2>
-    <h3>Genre: {{ show ? show.genre : "" }}</h3>
+    <h2>{{ show !== null ? show.title : "" }}</h2>
+    <h3>Genre: {{ show !== null ? show.name : "" }}</h3>
 
     <h4>Reviews/Comments:</h4>
-    <ul v-if="show !== null && show.reviews.length">
+    <ul v-if="show !== null && show.reviews !== null && show.reviews.length">
       <li v-for="review in show.reviews" :key="review.id">
         {{ review.text }} - by {{ review.user }}
       </li>
@@ -12,7 +12,7 @@
     <div v-else>No reviews/comments available.</div>
 
     <h4>Cast/Actors:</h4>
-    <ul v-if="show !== null && show.cast.length">
+    <ul v-if="show !== null && show.cast !== null && show.cast.length">
       <li v-for="actor in show.cast" :key="actor.id">
         {{ actor.name }}
       </li>
@@ -20,7 +20,7 @@
     <div v-else>No cast/actors information available.</div>
 
     <h4>Ratings:</h4>
-    <ul v-if="show !== null && show.ratings.length">
+    <ul v-if="show !== null && show.ratings !== null && show.ratings.length">
       <li v-for="rating in show.ratings" :key="rating.id">
         {{ rating.source }}: {{ rating.value }}
       </li>
@@ -31,19 +31,15 @@
       <label for="rating">Rating:</label>
       <select id="rating" v-model="userRating" @change="rateShow">
         <option value="">Select rating</option>
-        <option
-          v-for="rating in availableRatings"
-          v-bind:key="rating"
-          :value="rating"
-        >
+        <option v-for="rating in availableRatings" :key="rating" :value="rating">
           {{ rating }}
         </option>
       </select>
     </div>
 
-    <div v-if="show && show.rating">
-      <p>Average Rating: {{ show ? show.rating : "" }}</p>
-      <p>Total Ratings: {{ show ? show.totalRatings : "" }}</p>
+    <div v-if="show !== null && show.rating">
+      <p>Average Rating: {{ show !== null && show.rating ? show.rating : "" }}</p>
+      <p>Total Ratings: {{ show !== null && show.totalRatings ? show.totalRatings : "" }}</p>
     </div>
   </div>
 </template>

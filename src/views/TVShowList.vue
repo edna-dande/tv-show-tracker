@@ -4,22 +4,26 @@
     <NavBar />
     <button @click="createShow">Add TV Show</button>
     <div class="container" >
-      <div v-for="show in shows" :key="show.id" class="data-card">
-      <div class="show-poster">
-        <!-- Show Poster Image -->
-        <img width="300px" :src="show.image" alt="show-image" />
-      </div>
-      <div class="show-details">
-        <h3 class="show-title">{{ show.title }}</h3>
-        <p class="show-genre">{{ show.name }}</p>
-        <div class="actions">
-          <button @click="viewShow(show.id)">View</button>
-          <button @click="editShow(show)">Edit</button>
-          <button @click="deleteTvShow(show.id)">Delete</button>
-          <button @click="subscribeShow(show)">Subscribe</button>
+      <div class="row">
+        <div v-for="show in shows" :key="show.id" class="col-lg-4 col-sm-12">
+          <div class="data-card">
+            <div class="show-poster">
+              <!-- Show Poster Image -->
+              <img width="300px" :src="show.image" alt="show-image" />
+            </div>
+            <div class="show-details">
+              <h3 class="show-title">{{ show.title }}</h3>
+              <p class="show-genre">{{ show.name }}</p>
+              <div class="actions">
+                <button @click="viewShow(show.id)">View</button>
+                <button @click="editShow(show)">Edit</button>
+                <button @click="deleteTvShow(show.id)">Delete</button>
+                <button @click="subscribeShow(show)">Subscribe</button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
     </div> 
   </div>
 </template>
@@ -100,17 +104,17 @@ button {
   margin-top: 10px;
   padding: 5px;
 }
-.container{
+/* .container{
   display: flex;
-}
+} */
 .data-card {
-  width: 400px;
+  /* width: 400px;
   /* height: 150px; */
   border: 1px solid #d6d3d3;
   border-radius: 10px; 
   margin-left: 20px;
-  display: flex;
-  flex-direction: column;
+  /* display: flex; */
+  /* flex-direction: column; */
   padding: 10px;
 }
 </style>

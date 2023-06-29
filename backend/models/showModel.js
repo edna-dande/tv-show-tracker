@@ -29,6 +29,7 @@ export const getShowById = (id, result) => {
                         show.cast = {};
                         result(null, show)
                     } else {
+                        show.cast = results1;
                         connection.query("SELECT * FROM ratings WHERE show_id = ?", [id], (err, results2) => {
                             if(err) {
                                 show.ratings = {};
