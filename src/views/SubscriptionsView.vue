@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       ssubscriptions: [
-        { id: 1, show: `Show 1`, expiryDate: `2023-06-30` },
+        { id: 1, show: `Show 1`, expiryDate: `2023-07-30` },
         { id: 2, show: `Show 2`, expiryDate: `2023-07-15` },
         { id: 3, show: `Show 3`, expiryDate: `2023-07-10` },
       ],

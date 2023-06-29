@@ -3,27 +3,21 @@
     <h2>TV Shows</h2>
     <NavBar />
     <button @click="createShow">Add TV Show</button>
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Genre</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="show in shows" :key="show.id">
-          <td>{{ show.title }}</td>
-          <td>{{ show.name }}</td>
-          <td>
-            <button @click="viewShow(show.id)">View</button>
-            <button @click="editShow(show)">Edit</button>
-            <button @click="deleteTvShow(show.id)">Delete</button>
-            <button @click="subscribeShow(show)">Subscribe</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <div v-for="show in shows" :key="show.id" class="data-card">
+      <div class="show-poster">
+        <!-- Show Poster Image -->
+      </div>
+      <div class="show-details">
+        <h3 class="show-title">{{ show.title }}</h3>
+        <p class="show-genre">{{ show.name }}</p>
+        <div class="actions">
+          <button @click="viewShow(show.id)">View</button>
+          <button @click="editShow(show)">Edit</button>
+          <button @click="deleteTvShow(show.id)">Delete</button>
+          <button @click="subscribeShow(show)">Subscribe</button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
