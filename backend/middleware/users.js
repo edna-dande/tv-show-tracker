@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 
 export const validateRegister = (req, res, next) => {
   // username min length 3

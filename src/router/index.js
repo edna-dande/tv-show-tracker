@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 // import App from "../views/App.vue";
 import SubscriptionsView from "../views/SubscriptionsView.vue";
 import AdminLogin from "../views/AdminLogin.vue";
+import CreateAdmin from "../views/CreateAdmin.vue";
 import AddShow from "../views/AddShow.vue";
 import ShowList from "../views/TVShowList.vue";
 import ShowDetails from "../views/ShowDetails.vue";
@@ -37,6 +38,11 @@ const routes = [
     path: "/",
     name: "Login",
     component: AdminLogin,
+  },
+  {
+    path: "/signup",
+    name: "SignUp",
+    component: CreateAdmin,
   },
 ];
 

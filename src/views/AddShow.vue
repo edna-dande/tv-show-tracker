@@ -28,6 +28,7 @@
 <script>
 // import axios
 import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
@@ -38,6 +39,9 @@ export default {
       cast: [],
     };
   },
+  computed: {
+    ...mapGetters(["isLoggedIn", "getToken"]),
+  },
   created: function () {
     this.getActors();
     this.getGenres();
@@ -45,6 +49,10 @@ export default {
   methods: {
     // Get Actors
     async getActors() {
+        if (!this.isLoggedIn) {
+        this.$router.push('/');
+      }
+      axios.defaults.headers.common['Authorization'] = `Bearer ${this.getToken}`;
       try {
         const response = await axios.get("http://localhost:3002/actors");
         this.actors = response.data;
@@ -54,6 +62,10 @@ export default {
     },
     // Get Genres
     async getGenres() {
+      if (!this.isLoggedIn) {
+        this.$router.push('/');
+      }
+      axios.defaults.headers.common['Authorization'] = `Bearer ${this.getToken}`;
       try {
         const response = await axios.get("http://localhost:3002/genres");
         this.genres = response.data;
@@ -63,6 +75,10 @@ export default {
     },
     // Create New ?Tv Show
     async saveShow() {
+        if (!this.isLoggedIn) {
+        this.$router.push('/');
+      }
+      axios.defaults.headers.common['Authorization'] = `Bearer ${this.getToken}`;
       try {
         await axios.post("http://localhost:3002/tvshows", {
           name: this.name,
@@ -80,3 +96,8 @@ export default {
   },
 };
 </script>
+<style>
+.form-group{
+  padding: 10px
+}
+</style>

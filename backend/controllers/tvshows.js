@@ -27,12 +27,9 @@ export const showTvShowById = (req, res) => {
 // Create New Show
 export const createTvShow = (req, res) => {
     const data = req.body;
-    console.log("Inserting data:");
     var showdata = {"title": data.name, "genre_id": data.genre_id};
     var castdata = data.cast
     console.log(data);
-    console.log(showdata);
-    console.log(castdata);
     insertShow(showdata, (err, results) => {
         if (err){
             res.send(err);

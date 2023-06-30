@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import axios from 'axios';
+import createPersistedState from "vuex-plugin-persistedstate";
 
 const getDefaultState = () => {
   return {
@@ -10,9 +11,16 @@ const getDefaultState = () => {
 
 export default createStore({
   state: getDefaultState(),
+  plugins: [createPersistedState()],
   getters: {
     isLoggedIn(state) {
       return !!state.token;
+    },
+    getToken(state) {
+      return state.token;
+    },
+    getUser(state) {
+      return state.user;
     },
   },
   mutations: {
@@ -27,13 +35,13 @@ export default createStore({
     }
   },
   actions: {
-    login: ({ commit, dispatch }, { token, user }) => {
+    loginAction: ({ commit, dispatch }, { token, user }) => {
       commit('setToken', token);
       commit('setUser', user);
       // set auth header
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     },
-    logout: ({ commit }) => {
+    logoutAction: ({ commit }) => {
       commit('reset', '');
     }
   },

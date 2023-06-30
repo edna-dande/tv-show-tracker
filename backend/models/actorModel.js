@@ -19,13 +19,10 @@ export const getActors = (result) => {
 export const insertActorShow = (show_id, actor_id, result) => {
     db.then((connection) => {
         connection.query("INSERT INTO actor_shows (show_id, actor_id) VALUES (?, ?)", [show_id, actor_id], (err, results) => {             
-            console.log("actor show")
             if(err) {
                 console.log(err);
                 result(err, null);
             } else {
-                console.log("inserted");
-                console.log(results)
                 result(null, results);
             }
         });

@@ -11,15 +11,13 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex';
 export default {
   methods: {
+    ...mapActions(["logoutAction"]),
     logout() {
-      // Perform logout logic here
-      // For simplicity, let's assume successful logout
-      // You can replace this with your actual logout logic
-      // For example, clearing authentication tokens or session data
-      alert(`Logged out successfully!`);
-      // Redirect the user to the login page or perform desired actions
+      this.logoutAction();
+      this.$router.push('/');
     },
   },
 };

@@ -47,6 +47,7 @@
 <script>
 // import axios
 import axios from "axios";
+import { mapGetters } from "vuex";
 export default {
   props: {},
   data() {
@@ -60,6 +61,7 @@ export default {
     this.getTvShowById();
   },
   computed: {
+    ...mapGetters(["isLoggedIn", "getToken"]),
     showWithRating() {
       // Create a copy of the show object and add the rating properties
       return {
@@ -72,6 +74,10 @@ export default {
   methods: {
     // Get Show By Id
     async getTvShowById() {
+      if (!this.isLoggedIn) {
+        this.$router.push('/');
+      }
+      axios.defaults.headers.common['Authorization'] = `Bearer ${this.getToken}`;
       try {
         const response = await axios.get(
           `http://localhost:3002/show/${this.$route.params.id}`
