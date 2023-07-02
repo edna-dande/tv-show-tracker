@@ -2,8 +2,8 @@
   <div>
     <NavBar />
     <h2>Subscriptions</h2>
-    <ul v-if="ssubscriptions.length">
-      <li v-for="subscription in ssubscriptions" :key="subscription.id">
+    <ul v-if="subscriptions.length">
+      <li v-for="subscription in subscriptions" :key="subscription.id">
         {{ subscription.show }} - Expires on {{ subscription.expiryDate }}
         <button @click="unsubscribe(subscription.id)">Unsubscribe</button>
       </li>
@@ -21,15 +21,6 @@ export default {
       type: Array,
       required: true,
     },
-  },
-  data() {
-    return {
-      ssubscriptions: [
-        { id: 1, show: `Show 1`, expiryDate: `2023-07-30` },
-        { id: 2, show: `Show 2`, expiryDate: `2023-07-15` },
-        { id: 3, show: `Show 3`, expiryDate: `2023-07-10` },
-      ],
-    };
   },
   methods: {
     unsubscribe(subscriptionId) {

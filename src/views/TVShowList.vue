@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2>TV Shows</h2>
     <NavBar />
+    <h2>TV Shows</h2>
     <button @click="createShow">Add TV Show</button>
     <div class="container" >
       <div class="row">
@@ -16,7 +16,7 @@
               <p class="show-genre">{{ show.name }}</p>
               <div class="actions">
                 <button @click="viewShow(show.id)">View</button>
-                <button @click="editShow(show)">Edit</button>
+                <button @click="editShow(show.id)">Edit</button>
                 <button @click="deleteTvShow(show.id)">Delete</button>
                 <button @click="subscribeShow(show)">Subscribe</button>
               </div>
@@ -82,19 +82,15 @@ export default {
         console.log(err);
       }
     },
-    async subscribeTvShow(id) {
+    // Subscribe Tv Show
+    async subscribeShow(id) {
       if (!this.isLoggedIn) {
         this.$router.push('/');
       }
       axios.defaults.headers.common['Authorization'] = `Bearer ${this.getToken}`;
       try {
-        const confirmed = confirm(
-          `Are you sure you want to delete this TV show?`
-        );
-        if (confirmed) {
-          await axios.delete(`http://localhost:3002/show/${id}`);
+          await axios.post(`http://localhost:3002/show/subscribe/${id}`);
           this.getShows();
-        }
       } catch (err) {
         console.log(err);
       }
@@ -105,11 +101,12 @@ export default {
     createShow() {
       this.$router.push("/create");
     },
-    editShow(show) {
+    editShow(showId) {
       // Handle logic for editing a TV show
       // You can redirect to a dedicated editing page or open a modal for editing the show
       // Implement your desired logic here
-      alert(`Edit TV Show: ` + show.title);
+      // alert(`Edit TV Show: ` + show.title);
+      this.$router.push(`/edit/${showId}`);
     },
   },
 };

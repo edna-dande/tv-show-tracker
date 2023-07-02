@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="navigation"></div>
+    <!-- <div class="navigation"></div> -->
     <!-- Other components and content here -->
     <!-- <AdminLogin v-if="!isLoggedIn" />
     <Navbar v-if="isLoggedIn" />
