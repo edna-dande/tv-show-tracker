@@ -1,12 +1,14 @@
 <template>
   <div>
-    <NavBar />
-    <h2>TV Shows</h2>
-    <button @click="createShow">Add TV Show</button>
+    <div class="background">
+      <NavBar />
+    </div>
+    <h2 class="title">TV Shows</h2>
+    <button class="addshow" @click="createShow"><font-awesome-icon icon="fa-solid fa-plus" /></button>
     <div class="container" >
       <div class="row">
         <div v-for="show in shows" :key="show.id" class="col-lg-4 col-sm-12">
-          <div class="data-card">
+          <div class="data-card" @click="viewShow(show.id)">
             <div class="show-poster">
               <!-- Show Poster Image -->
               <!-- <img width="300px" :src="show.image" alt="show-image" /> -->
@@ -14,12 +16,6 @@
             <div class="show-details">
               <h3 class="show-title">{{ show.title }}</h3>
               <p class="show-genre">{{ show.name }}</p>
-              <div class="actions">
-                <button @click="viewShow(show.id)">View</button>
-                <button @click="editShow(show.id)">Edit</button>
-                <button @click="deleteTvShow(show.id)">Delete</button>
-                <button @click="subscribeShow(show)">Subscribe</button>
-              </div>
             </div>
           </div>
         </div>
@@ -63,50 +59,12 @@ export default {
       } catch (err) {
         console.log(err);
       }
-    },
-    // Delete Tv Show
-    async deleteTvShow(id) {
-      if (!this.isLoggedIn) {
-        this.$router.push('/');
-      }
-      axios.defaults.headers.common['Authorization'] = `Bearer ${this.getToken}`;
-      try {
-        const confirmed = confirm(
-          `Are you sure you want to delete this TV show?`
-        );
-        if (confirmed) {
-          await axios.delete(`http://localhost:3002/show/${id}`);
-          this.getShows();
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    // Subscribe Tv Show
-    async subscribeShow(id) {
-      if (!this.isLoggedIn) {
-        this.$router.push('/');
-      }
-      axios.defaults.headers.common['Authorization'] = `Bearer ${this.getToken}`;
-      try {
-          await axios.post(`http://localhost:3002/show/subscribe/${id}`);
-          this.getShows();
-      } catch (err) {
-        console.log(err);
-      }
-    },
-    viewShow(id) {
-      this.$router.push("/showdetails/" + id);
-    },
+    }, 
     createShow() {
       this.$router.push("/create");
     },
-    editShow(showId) {
-      // Handle logic for editing a TV show
-      // You can redirect to a dedicated editing page or open a modal for editing the show
-      // Implement your desired logic here
-      // alert(`Edit TV Show: ` + show.title);
-      this.$router.push(`/edit/${showId}`);
+    viewShow(id) {
+      this.$router.push("/showdetails/" + id);
     },
   },
 };
@@ -121,7 +79,16 @@ td {
   padding: 10px;
   text-align: left;
 } */
-
+.background {
+  background-image: url("/background.jpg");
+  box-shadow: inset 0 0 0 100vmax rgba(136, 127, 127, 0.7);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 600px;
+}
+.title{
+  float: left;
+}
 button {
   margin-right: 10px;
   border-radius: 30px;
@@ -146,6 +113,19 @@ button {
   /* display: flex; */
   /* flex-direction: column; */
   padding: 10px;
+}
+
+.addshow{
+  background: inherit;
+    width: 40px;
+    cursor: pointer;
+    border-radius: 30px;
+    height: 40px;
+    border: solid 1px;
+    float: right;
+}
+.container{
+  clear: both;
 }
 .show-details{
   color: white;

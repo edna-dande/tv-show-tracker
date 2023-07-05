@@ -62,14 +62,12 @@ export default {
   padding: 0;
 }
 main{
-  max-width: 1200px;
-  margin: 10px auto;
-  padding: 20px;
-  min-height: 100vh;
+  min-height: 90vh;
 }
 .navigation{
   background-color: #f3f3f3;
   height: 50px;
+  
 }
 .footer{
   background-color: #f3f3f3;

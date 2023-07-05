@@ -2,7 +2,7 @@
   <div>
     <NavBar />
     <h2>Subscriptions</h2>
-    <ul v-if="subscriptions.length">
+    <ul v-if="subscriptions">
       <li v-for="subscription in subscriptions" :key="subscription.id">
         {{ subscription.show }} - Expires on {{ subscription.expiryDate }}
         <button @click="unsubscribe(subscription.id)">Unsubscribe</button>
@@ -16,11 +16,9 @@
 
 <script>
 export default {
-  props: {
-    subscriptions: {
-      type: Array,
-      required: true,
-    },
+  props: {},
+  computed: {
+    ...mapGetters(["isLoggedIn", "getToken", "getUser"]),
   },
   methods: {
     unsubscribe(subscriptionId) {

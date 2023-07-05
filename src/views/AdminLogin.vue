@@ -13,7 +13,7 @@
               <label for="password">Password:</label>
               <input class="form-control" placeholder="Password" type="password" id="password" v-model="password" required />
             </div>
-            <input type="button" @click="login" value="Login" class="button" />
+            <input type="button" @click="login" value="Login" class="button" :disabled="isButtonDisabled" />
           </div>
         <router-link to="/signup">Sign Up</router-link>
       </div>
@@ -30,11 +30,13 @@ export default {
       username: "",
       password: "",
       msg: "",
+      isButtonDisabled: false,
     };
   },
   methods: {
     ...mapActions(["loginAction"]),
     async login() {
+      this.isButtonDisabled = true;
       try {
         const credentials = {
           username: this.username,
@@ -51,6 +53,7 @@ export default {
         console.log(error);
         this.msg = error.response.data.msg;
       }
+      this.isButtonDisabled = false;
     },
     // login() {
     //   // Perform authentication logic here

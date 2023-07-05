@@ -13,6 +13,10 @@
       </select>
     </div>
     <div class="form-group">
+      <label for="actors">Image:</label>
+      <input type="file" name="image" accept='image/*' ref="imageInput" >
+    </div>
+    <div class="form-group">
       <label for="actors">Actors:</label>
       <select id="actors" v-model="cast" multiple required>
         <option v-for="item in actors" :value="item.id" :key="item.id">
@@ -28,8 +32,12 @@
 <script>
 // import axios
 import axios from "axios";
+import NavBar from "../components/NavBar.vue";
 import { mapGetters } from "vuex";
 export default {
+  components: {
+    NavBar,
+  },
   data() {
     return {
       name: "",
@@ -78,13 +86,33 @@ export default {
         if (!this.isLoggedIn) {
         this.$router.push('/');
       }
+
       axios.defaults.headers.common['Authorization'] = `Bearer ${this.getToken}`;
+      axios.defaults.headers.common['Content-Type'] = `multipart/form-data`;
+
+      let imageFile = this.$refs.imageInput.files[0];
+
+      const data = new FormData();
+      data.append('name', this.name);
+      data.append('genre_id', this.genre);
+      data.append('cast', this.cast);
+      data.append('image', imageFile);
+
+      // let data = {
+      //     name: this.name,
+      //     genre_id: this.genre,
+      //     cast: this.cast,
+      //     image: imageFile, // wont work
+      // };
+
+      // let data = new Object();
+      // data.name = this.name;
+      // data.genre_id = this.genre;
+      // data.cast = this.cast;
+      // data.image = imageFile; // wont work
+
       try {
-        await axios.post("http://localhost:3002/tvshows", {
-          name: this.name,
-          genre_id: this.genre,
-          cast: this.cast,
-        });
+        await axios.post("http://localhost:3002/tvshows", data);
         this.name = "";
         this.genre = "";
         this.cast = [];

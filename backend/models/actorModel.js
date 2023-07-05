@@ -28,3 +28,17 @@ export const insertActorShow = (show_id, actor_id, result) => {
         });
     });   
 }
+
+// Delete Actor Shows from Database
+export const deleteActorShows = (show_id, result) => {
+    db.then((connection) => {
+        connection.query("DELETE FROM actor_shows WHERE id IN (SELECT id FROM actor_shows WHERE show_id = ?)", [show_id], (err, results) => {             
+            if(err) {
+                console.log(err);
+                result(err, null);
+            } else {
+                result(null, results);
+            }
+        });
+    });   
+}
