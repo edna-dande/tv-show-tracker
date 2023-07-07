@@ -1,7 +1,8 @@
 <template>
   <div>
+    <form>
     <div class="row">
-      <div class="col-md-6 offset-md-3">
+      <div class="col-md-6 offset-md-3 login-form" style="margin-top: 70px;">
         <h2>Login</h2>
           <div>
             <p v-if="msg">{{ msg }}</p>
@@ -13,11 +14,14 @@
               <label for="password">Password:</label>
               <input class="form-control" placeholder="Password" type="password" id="password" v-model="password" required />
             </div>
-            <input type="button" @click="login" value="Login" class="button" :disabled="isButtonDisabled" />
+            <div class="d-grid gap-2" style='margin-bottom: 10px;'>
+            <input type="button" @click="login" value="Login" class="btn btn-primary btn-md" style="margin-top: 5%; margin-right:1% ; margin-left: 2%;" :disabled="isButtonDisabled" />
+            </div>
           </div>
-        <router-link to="/signup">Sign Up</router-link>
+        <router-link to="/signup" >Sign Up</router-link>
       </div>
     </div>
+    </form>
   </div>
 </template>
 
@@ -78,6 +82,13 @@ export default {
 }
 .button {
   margin-top: 25px;
+}
+.login-form{
+  padding-bottom: 20px;
+    background-color: white;
+    margin-top: 70px;
+    padding-top: 20px;
+    border-radius: 12px;
 }
 /* header {
     display: flex;

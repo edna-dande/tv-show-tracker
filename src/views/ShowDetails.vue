@@ -2,28 +2,21 @@
   <div>
     <div class="background">
       <NavBar />
+      <p class="title">{{ show !== null ? show.title : "" }}</p>
     </div>
     <div class="container">
       <div class="actions">
-        <button @click="editShow()" class="btn btn-outline-secondary"><font-awesome-icon icon="fa-solid fa-pen-to-square" /></button>
-        <button @click="deleteTvShow()" class="btn btn-outline-secondary"><font-awesome-icon icon="fa-solid fa-trash" style="color: #f50a0a;" /></button>
-        <button @click="unsubscribeShow()" class="btn btn-outline-secondary" v-if="show !== null && show.subscribed"><font-awesome-icon icon="fa-solid fa-xmark" style="color: #ff99c5;" /></button>
-        <button @click="subscribeShow()" class="btn btn-outline-secondary" v-else><font-awesome-icon icon="fa-solid fa-check" beat-fade style="color: #69dd80;" /></button>
-        <button @click="unfavoriteTvShow()" class="btn btn-outline-secondary" v-if="show !== null && show.favourited"><font-awesome-icon icon="fa-solid fa-heart" style="color: #c1ef6b;" /></button>
-        <button @click="favoriteTvShow()" class="btn btn-outline-secondary" v-else><font-awesome-icon icon="fa-regular fa-heart" /></button>
+        <button @click="editShow()" style="background-color: white;" class="btn btn-outline-secondary"><font-awesome-icon icon="fa-solid fa-pen-to-square" /></button>
+        <button @click="deleteTvShow()" style="background-color: white;" class="btn btn-outline-secondary"><font-awesome-icon icon="fa-solid fa-trash" style="color: #f50a0a;" /></button>
+        <button @click="unsubscribeShow()" style="background-color: white;" class="btn btn-outline-secondary" v-if="show !== null && show.subscribed"><font-awesome-icon icon="fa-solid fa-xmark" style="color: #ff99c5;" /></button>
+        <button @click="subscribeShow()" style="background-color: white;" class="btn btn-outline-secondary" v-else><font-awesome-icon icon="fa-solid fa-check" beat-fade style="color: #69dd80;" /></button>
+        <button @click="unfavoriteTvShow()" style="background-color: white;" class="btn btn-outline-secondary" v-if="show !== null && show.favourited"><font-awesome-icon icon="fa-solid fa-heart" style="color: #c1ef6b;" /></button>
+        <button @click="favoriteTvShow()" style="background-color: white;" class="btn btn-outline-secondary" v-else><font-awesome-icon icon="fa-regular fa-heart" /></button>
       </div>
-      <h2>{{ show !== null ? show.title : "" }}</h2>
-      <h3>Genre: {{ show !== null ? show.name : "" }}</h3>
+      <h3>Genre: </h3>
+      <ul><li>{{ show !== null ? show.name : "" }}</li></ul>
 
-      <h4>Reviews/Comments:</h4>
-      <ul v-if="show !== null && show.reviews !== null && show.reviews?.length">
-        <li v-for="review in show.reviews" :key="review.id">
-          {{ review.text }} - by {{ review.user }}
-        </li>
-      </ul>
-      <div v-else>No reviews/comments available.</div>
-
-      <h4>Cast/Actors:</h4>
+      <h3>Cast/Actors:</h3>
       <ul v-if="show !== null && show.cast !== null && show.cast?.length">
         <li v-for="actor in show.cast" :key="actor.id">
           {{ actor.name }}
@@ -31,8 +24,18 @@
       </ul>
       <div v-else>No cast/actors information available.</div>
 
-      <h4>Ratings:</h4>
-      <ul v-if="show !== null && show.ratings !== null && show.ratings?.length">
+      <h3>Rating:</h3>
+      <div class="ratings">
+        <div v-if="show !== null && show.ratings !== null && show.ratings?.value">
+          <button v-if="show.ratings.value == 1" style="background-color: white;" class="btn btn-outline-success" disabled><font-awesome-icon icon="fa-solid fa-thumbs-up" style="color: #166f28;" /></button>
+          <button v-else-if="show.ratings.value == 2" style="background-color: white;" class="btn btn-outline-danger" disabled><font-awesome-icon icon="fa-solid fa-thumbs-down" style="color: #68222c;" /></button>
+        </div>
+        <div v-else>
+          <button style="background-color: white;" class="btn btn-outline-secondary" @click="rateShow(1)"><font-awesome-icon icon="fa-regular fa-thumbs-up" /></button>
+          <button style="background-color: white;" class="btn btn-outline-secondary" @click="rateShow(2)"><font-awesome-icon icon="fa-regular fa-thumbs-down" /></button>
+        </div>
+      </div>
+      <!-- <ul v-if="show !== null && show.ratings !== null && show.ratings?.length">
         <li v-for="rating in show.ratings" :key="rating.id">
           {{ rating.source }}: {{ rating.value }}
         </li>
@@ -47,11 +50,23 @@
             {{ rating }}
           </option>
         </select>
-      </div>
+      </div> -->
 
-      <div v-if="show !== null && show.rating">
+      <!-- <div v-if="show !== null && show.rating">
         <p>Average Rating: {{ show !== null && show.rating ? show.rating : "" }}</p>
         <p>Total Ratings: {{ show !== null && show.totalRatings ? show.totalRatings : "" }}</p>
+      </div> -->
+      <h4>Reviews:</h4>
+      <div v-if="show !== null && show.reviews !== null && show.reviews?.length">
+        <div v-for="review in show.reviews" :key="review.id" class="reviews">
+          <p class="username">{{ review.name }}:</p>
+          <p class="content">{{ review.content }}</p>
+        </div>
+      </div>
+      <div>
+        <p>Add review</p>
+        <textarea rows=3 v-model="comment" class="form-control"></textarea>
+        <button class="btn btn-info" @click="reviewShow">Submit</button>
       </div>
     </div>
   </div>
@@ -71,6 +86,7 @@ export default {
     return {
       userRating: ``,
       show: {},
+      comment: '',
       subscriptions: null,
       favourites: null,
       availableRatings: [1, 2, 3, 4, 5], // Update with your desired rating values
@@ -106,16 +122,6 @@ export default {
         console.log(err);
       }
     },
-    rateShow() {
-      // Perform rating logic here
-      // You can emit an event to notify the parent component about the rating change
-
-      // For demonstration purposes, let's simply update the show's rating and totalRatings
-      if (this.userRating !== ``) {
-        // this.show.rating = this.calculateNewRating(this.userRating);
-        // this.show.totalRatings++;
-      }
-    },
     calculateNewRating(newRating) {
       const currentRating = this.show.rating;
       const totalRatings = this.show.totalRatings;
@@ -141,6 +147,24 @@ export default {
           await axios.delete(`http://localhost:3002/show/${this.$route.params.id}`);
           this.$router.push('/showlist');
         }
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    // Rate Tv Show
+    async rateShow(rate) {
+      if (!this.isLoggedIn) {
+        this.$router.push(`/`);
+      }
+      axios.defaults.headers.common['Authorization'] = `Bearer ${this.getToken}`;
+      const data = {
+        rating: rate,
+        user: this.getUser.id,
+        id: this.$route.params.id
+      };
+      try {
+        await axios.post("http://localhost:3002/rate", data);
+        this.getTvShowById();
       } catch (err) {
         console.log(err);
       }
@@ -197,6 +221,32 @@ export default {
         console.log(err);
       }
     },
+    async reviewShow() {
+        if (!this.isLoggedIn) {
+        this.$router.push('/');
+      }
+
+      axios.defaults.headers.common['Authorization'] = `Bearer ${this.getToken}`;
+
+      // const data = new FormData();
+      // data.append('comment', this.comment);
+      // data.append('user', this.getUser.id);
+      // data.append('id', this.$route.params.id)
+
+      const data = {
+        comment: this.comment,
+        user: this.getUser.id,
+        id: this.$route.params.id
+      };
+      
+      try {
+        await axios.post("http://localhost:3002/review", data);
+        this.comment = "";
+        this.getTvShowById();
+      } catch (err) {
+        console.log(err);
+      }
+    },
     editShow() {
       // Handle logic for editing a TV show
       // You can redirect to a dedicated editing page or open a modal for editing the show
@@ -208,11 +258,61 @@ export default {
 };
 </script>
 
-<style scoped>
-.btn {
-  border-radius: 40px;
-  margin-right: 10px;
-  float: right;
+<style  lang="scss" scoped>
+.background {
+  background-image: url("/background.jpg");
+  // box-shadow: inset 0 0 0 100vmax rgba(136, 127, 127, 0.7);
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 600px;
+  position: relative;
+}
+.viewshow{
+  background: inherit;
+    width: 40px;
+    cursor: pointer;
+    border-radius: 30px;
+    height: 40px;
+    border: solid 1px;
+    float: right;
+    color: white;
+}
+.container {
+  margin-top: 5%;
+  color: white;
+  border-radius: 12px;
+  padding-top: 15px;
+  .btn {
+    border-radius: 40px;
+    margin-right: 10px;
+    margin-top: 5px;
+  }
+  .actions {
+    .btn {
+      float: right;
+    }
+  }
+  .reviews {
+    padding: 5px 10px;
+    border-radius: 15px;
+    background-color: rgb(30, 77, 118);
+    margin-bottom: 10px;
+    .username {
+      font-weight: 700;
+      margin-bottom: unset;
+      color: navy-blue;
+    }
+    .content {
+      margin-bottom: unset;
+    }
+  }
+}
+.title {
+  color: white;
+  position:absolute;
+  bottom: 20px;
+  padding-left: 20px;
+  font-size: 50px;
 }
 ul {
   list-style-type: none;

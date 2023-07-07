@@ -4,7 +4,7 @@ import {
   getShowById,
   insertShow,
   updateShowById,
-  deleteShowById
+  deleteShowById,
 } from "../models/showModel.js";
 import { insertActorShow, deleteActorShows } from "../models/actorModel.js";
 
@@ -32,6 +32,7 @@ export const showTvShowById = (req, res) => {
 
 // Create New Show
 export const createTvShow = (req, res) => {
+  console.log(req.file);
   const data = req.body;
   var showdata = {
     title: data.name,
@@ -58,19 +59,13 @@ export const updateTvShow = (req, res) => {
   const data = req.body;
   const id = req.params.id;
   var showdata = {
-    title: data.name,
+    title: data.title,
     genre_id: data.genre_id,
-    image: "/images/" + req.file.filename,
   };
-  var castdata = data.cast;
   updateShowById(showdata, id, (err, results) => {
     if (err) {
       res.send(err);
     } else {
-      deleteActorShows(id, (err, results) => {});
-      for (var i = 0; i < castdata.length; i++) {
-        insertActorShow(id, castdata[i], (err, results) => {});
-      }
       res.json(results);
     }
   });

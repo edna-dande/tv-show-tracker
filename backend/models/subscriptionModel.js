@@ -4,7 +4,7 @@ import db from "../config/database.js";
 // Get All Subscriptions
 export const getSubscriptions = (user_id, result) => {
     db.then((connection) => {
-        connection.query("SELECT * FROM subscriptions WHERE user_id = ?", [user_id], (err, results) => {             
+        connection.query("SELECT *,shows.id as shows_id, subscriptions.id as id FROM subscriptions LEFT JOIN shows ON subscriptions.show_id = shows.id WHERE subscriptions.user_id = ?", [user_id], (err, results) => {             
             if(err) {
                 console.log(err);
                 result(err, null);

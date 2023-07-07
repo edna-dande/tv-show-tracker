@@ -2,7 +2,7 @@ import { getFavourites, insertFavourite, deleteFavourite } from "../models/favou
 
 // Get All Subscriptions
 export const showFavourites = (req, res) => {
-    getFavourites(req.params.id, (err, results) => {
+    getFavourites(req.query.user, (err, results) => {
       if (err) {
         res.send(err);
       } else {

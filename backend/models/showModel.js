@@ -44,12 +44,13 @@ export const getShowById = (id, userid, result) => {
                   [id],
                   (err, results2) => {
                     if (err) {
+                      console.log(err);
                       show.ratings = {};
                       result(null, show);
                     } else {
                       show.ratings = results2;
                       connection.query(
-                        "SELECT * FROM reviews WHERE show_id = ?",
+                        "SELECT *,users.id as users_id, reviews.id as id  FROM reviews LEFT JOIN users ON reviews.user_id = users.id WHERE show_id = ?",
                         [id],
                         (err, results3) => {
                           if (err) {
@@ -64,9 +65,15 @@ export const getShowById = (id, userid, result) => {
                               (err, results4) => {
                                 if (err) {
                                   show.ratings = {};
+                                  console.log(err);
                                   result(null, show);
                                 } else {
-                                  show.ratings = results4;
+                                    console.log(results4.length);
+                                  if (results4.length === 0) {
+                                    show.ratings = {};
+                                  } else {
+                                    show.ratings = results4[0];
+                                  }
                                   connection.query(
                                     "SELECT COUNT(*) as amount FROM subscriptions WHERE show_id = ? AND user_id = ?",
                                     [id, userid],
@@ -76,7 +83,6 @@ export const getShowById = (id, userid, result) => {
                                         show.subscribed = false;
                                         result(null, show);
                                       } else {
-                                        console.log(results5[0].amount);
                                         if (results5[0].amount > 0) {
                                           show.subscribed = true;
                                         } else {
@@ -87,6 +93,7 @@ export const getShowById = (id, userid, result) => {
                                           [id, userid],
                                           (err, results6) => {
                                             if (err) {
+                                              console.log(err);
                                               show.favourited = {};
                                               result(null, show);
                                             } else {

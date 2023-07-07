@@ -1,12 +1,15 @@
 <template>
   <div>
+    <NavBar />
+    <form class="add-show">
+      <h1>Add Show</h1>
     <div class="form-group">
-      <label for="name">Name:</label>
-      <input id="name" type="text" v-model="name" required />
+      <label for="name">Name: </label>
+      <input class="form-control" id="name" type="text" v-model="name" required />
     </div>
     <div class="form-group">
-      <label for="genre">Genre:</label>
-      <select id="genre" v-model="genre" required>
+      <label for="genre">Genre: </label>
+      <select class="form-control" id="genre" v-model="genre" required>
         <option v-for="item in genres" :value="item.id" :key="item.id">
           {{ item.name }}
         </option>
@@ -14,19 +17,21 @@
     </div>
     <div class="form-group">
       <label for="actors">Image:</label>
-      <input type="file" name="image" accept='image/*' ref="imageInput" >
+      <input class="form-control" type="file" name="image" accept='image/*' ref="imageInput" >
     </div>
     <div class="form-group">
       <label for="actors">Actors:</label>
-      <select id="actors" v-model="cast" multiple required>
+      <select class="form-control" id="actors" v-model="cast" multiple required>
         <option v-for="item in actors" :value="item.id" :key="item.id">
           {{ item.name }}
         </option>
       </select>
     </div>
-    <div class="submit">
-      <button @click="saveShow">SAVE</button>
+    <p v-if="msg">{{ msg }}</p>
+    <div class="submit" style="padding-left: 20px; padding-right: 20px;">
+      <button class="btn btn-primary btn-lg form-control" @click="saveShow">SAVE</button>
     </div>
+    </form>
   </div>
 </template>
 <script>
@@ -42,6 +47,7 @@ export default {
     return {
       name: "",
       genre: "",
+      msg: "",
       genres: {},
       actors: {},
       cast: [],
@@ -87,38 +93,43 @@ export default {
         this.$router.push('/');
       }
 
-      axios.defaults.headers.common['Authorization'] = `Bearer ${this.getToken}`;
-      axios.defaults.headers.common['Content-Type'] = `multipart/form-data`;
+      if (this.name === "" || this.genre === "" || this.cast.length === 0) {
+        this.msg = "Please ensure the name, genre and cast are not empty."
+      } else {
 
-      let imageFile = this.$refs.imageInput.files[0];
+        axios.defaults.headers.common['Authorization'] = `Bearer ${this.getToken}`;
+        axios.defaults.headers.common['Content-Type'] = `multipart/form-data`;
 
-      const data = new FormData();
-      data.append('name', this.name);
-      data.append('genre_id', this.genre);
-      data.append('cast', this.cast);
-      data.append('image', imageFile);
+        let imageFile = this.$refs.imageInput.files[0];
 
-      // let data = {
-      //     name: this.name,
-      //     genre_id: this.genre,
-      //     cast: this.cast,
-      //     image: imageFile, // wont work
-      // };
+        const data = new FormData();
+        data.append('name', this.name);
+        data.append('genre_id', this.genre);
+        data.append('cast', this.cast);
+        data.append('image', imageFile);
 
-      // let data = new Object();
-      // data.name = this.name;
-      // data.genre_id = this.genre;
-      // data.cast = this.cast;
-      // data.image = imageFile; // wont work
+        // let data = {
+        //     name: this.name,
+        //     genre_id: this.genre,
+        //     cast: this.cast,
+        //     image: imageFile, // wont work
+        // };
 
-      try {
-        await axios.post("http://localhost:3002/tvshows", data);
-        this.name = "";
-        this.genre = "";
-        this.cast = [];
-        this.$router.push("/showlist");
-      } catch (err) {
-        console.log(err);
+        // let data = new Object();
+        // data.name = this.name;
+        // data.genre_id = this.genre;
+        // data.cast = this.cast;
+        // data.image = imageFile; // wont work
+
+        try {
+          await axios.post("http://localhost:3002/tvshows", data);
+          this.name = "";
+          this.genre = "";
+          this.cast = [];
+          this.$router.push("/showlist");
+        } catch (err) {
+          console.log(err);
+        }
       }
     },
   },
@@ -127,5 +138,15 @@ export default {
 <style>
 .form-group{
   padding: 10px
+}
+.add-show{
+  padding-bottom: 20px;
+    background-color: white;
+    margin-top: 50px;
+    padding-top: 20px;
+    border-radius: 12px;
+    width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 </style>

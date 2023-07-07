@@ -2,7 +2,7 @@ import { getSubscriptions, insertSubscription, deleteSubscription } from "../mod
 
 // Get All Subscriptions
 export const showSubscriptions = (req, res) => {
-    getSubscriptions(req.params.id, (err, results) => {
+    getSubscriptions(req.query.user, (err, results) => {
       if (err) {
         res.send(err);
       } else {

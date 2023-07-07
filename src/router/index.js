@@ -7,6 +7,7 @@ import AddShow from "../views/AddShow.vue";
 import ShowList from "../views/TVShowList.vue";
 import ShowDetails from "../views/ShowDetails.vue";
 import FavoriteShows from "../views/FavoriteShows.vue";
+import EditShows from "../views/EditShows.vue";
 
 const routes = [
   {
@@ -43,6 +44,11 @@ const routes = [
     path: "/signup",
     name: "SignUp",
     component: CreateAdmin,
+  },
+  {
+    path: "/edit/:id",
+    name: "Edit",
+    component: EditShows,
   },
 ];
 

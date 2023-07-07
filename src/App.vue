@@ -13,11 +13,10 @@
       @remove="removeFromFavorites"
     />
     <SearchShows v-if="isLoggedIn" :shows="shows" /> -->
-    <main>
+    <main >
       <router-view />
     </main>
     <!-- Display other components or content for authenticated user -->
-    <div class="footer"></div>
   </div>
 </template>
 
@@ -63,21 +62,22 @@ export default {
 }
 main{
   min-height: 90vh;
+  background-color: black;
 }
 .navigation{
   background-color: #f3f3f3;
   height: 50px;
   
 }
-.footer{
-  background-color: #f3f3f3;
-  height: 50px;
-  position: fixed;
-  width: 100%;
-  flex-shrink: 0;
-  position: sticky;
-  bottom: 0;
+// .footer{
+//   background-color: #f3f3f3;
+//   height: 50px;
+//   position: fixed;
+//   width: 100%;
+//   flex-shrink: 0;
+//   position: sticky;
+//   bottom: 0;
  
-}
+// }
 
 </style>
